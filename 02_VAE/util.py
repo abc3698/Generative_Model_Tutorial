@@ -22,8 +22,8 @@ def DrawScatter(model, Dataset, device, show=False):
 
 def z_latentReconstruct(model, Dataset, device):
     DrawScatter(model, Dataset, device)
-    x = np.linspace(-10, 10, 25)
-    y = 0
+    x = 0
+    y = np.linspace(-0.04, 0.04, 25)
 
     xv, yv = np.meshgrid(x, y)
     xv = xv.flatten()
