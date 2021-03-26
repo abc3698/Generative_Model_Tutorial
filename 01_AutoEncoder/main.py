@@ -1,5 +1,4 @@
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-
 from Dataloader import MNISTDataset
 from torch.utils.data import DataLoader
 import torch
@@ -7,7 +6,7 @@ import torch.nn as nn
 from AutoEncoder import AutoEncoder
 import numpy as np
 import util
-
+import matplotlib.pyplot as plt
 
 class RMSELoss(nn.Module):
     def __init__(self):
@@ -80,8 +79,23 @@ def DrawScatter():
 
     mnist_dataset = MNISTDataset('../Dataset/MNIST/mnist_train.csv')
 
-    util.DrawScatter(autoEncoder, mnist_dataset, device)
+    util.DrawScatter(autoEncoder, mnist_dataset, device, True)
+
+def Reconstruct():
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    autoEncoder = AutoEncoder()
+    autoEncoder.to(device)
+
+    checkpoint = torch.load("best_model.pth")
+    autoEncoder.load_state_dict(checkpoint['model_state_dict'])
+    autoEncoder.eval()
+
+    mnist_dataset = MNISTDataset('../Dataset/MNIST/mnist_train.csv')
+
+    util.z_latentReconstruct(autoEncoder, mnist_dataset, device)
 
 if __name__ == '__main__':
     #Train()
-    DrawScatter()
+    #DrawScatter()
+    Reconstruct()

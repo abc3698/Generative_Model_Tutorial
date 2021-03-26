@@ -35,4 +35,8 @@ class AutoEncoder(nn.Module):
         x = self.Encoder(inputs)
         return x
 
+    def Reconstruct(self, inputs):
+        x = self.Decoder(inputs)
+        return x
+
 
