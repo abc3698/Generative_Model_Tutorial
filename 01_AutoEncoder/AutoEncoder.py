@@ -31,3 +31,8 @@ class AutoEncoder(nn.Module):
         plt.imshow(out, interpolation='none', cmap='Blues')
         plt.show()
 
+    def latent_vector(self, inputs):
+        x = self.Encoder(inputs)
+        return x
+
+

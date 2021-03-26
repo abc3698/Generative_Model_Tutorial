@@ -6,6 +6,8 @@ import torch
 import torch.nn as nn
 from AutoEncoder import AutoEncoder
 import numpy as np
+import util
+
 
 class RMSELoss(nn.Module):
     def __init__(self):
@@ -66,5 +68,20 @@ def Train():
     img = img.to(device)
     autoEncoder.Draw(img)
 
+def DrawScatter():
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    autoEncoder = AutoEncoder()
+    autoEncoder.to(device)
+
+    checkpoint = torch.load("best_model.pth")
+    autoEncoder.load_state_dict(checkpoint['model_state_dict'])
+    autoEncoder.eval()
+
+    mnist_dataset = MNISTDataset('../Dataset/MNIST/mnist_train.csv')
+
+    util.DrawScatter(autoEncoder, mnist_dataset, device)
+
 if __name__ == '__main__':
-    Train()
+    #Train()
+    DrawScatter()
